@@ -1,3 +1,18 @@
+/*
+ * To Do:
+ * 
+ * 1. Refresh list after entry  - DONE
+ * 2. Details View - DONE
+ * 5. Transitions - DONE
+ * 4. Fix Welcome to Message to refresh - DEFERRED
+ * 7. Fix Bug on Refresh List does not work on first entry - DONE
+ * 11. Phone Gap - DONE
+ * 10. Add loading bubble
+ * 8. Delete Wine
+ * 9. Edit Wine
+ * 6. Deploy to AppHarbor
+ * 3. Sync with web database using persistence.js / node.js
+ */
 var wineList;
 
 function save_settings() 
@@ -14,18 +29,13 @@ function save_settings()
 }
 
 function add_wine(event)
-{	
-	var d = new Date();
-	
+{		
 	var wine = { 
 		"name" : $('#name').val() ,
 		"year" : $('#year').val() ,
 		"variety" : $('#variety').val(), 
-		"rating" :$("#stars-wrapper1").data("stars").options.value,
-		"thoughts" : $('#thoughts').val() ,
-		"created" : d,
-		"modified" : d,
-		"deleted" : 0
+		"recommend" : $('#recommend').val(), 
+		"thoughts" : $('#thoughts').val() 
 	};
 
 	wineList.wines.push( wine );
@@ -57,8 +67,7 @@ function refresh_list()
 	for( wine in wineList.wines)
 	{
 		var obj = wineList.wines[wine];
-		console.log(obj.deleted);
-		if( obj != null && parseInt(obj.deleted) != 1 )
+		if( obj != null )
 		{
 			var link = '<li><a data-rel="dialog" data-wine="' + wine + '" data-transition="pop" href="#details">' + obj.name + ' (' + obj.year + ')</a>';
 			link += '<a data-rel="dialog" data-wine="' + wine + '" data-transition="pop" onClick="delete_wine(' + wine + ')" href="#main"></a></li>';
@@ -77,8 +86,7 @@ function delete_wine(index)
 
 	if(confirm("Are you sure you wish to delete"))
 	{
-		wineList.wines[index].deleted = 1;
-		wineList.wines[index].modified = new Date();
+		delete wineList.wines[index];
 		localStorage.wineList = JSON.stringify( wineList );
 	}
 
@@ -90,16 +98,12 @@ function show_details(index)
 	console.log("show details");
 
 	var obj = wineList.wines[index];
-	
+
 	if( obj != null )
 	{	
 		$("#wine_name").val(obj.name + " - Year: " + obj.year);
 		$("#wine_type").val(obj.variety);
-		
-		$("#wine_stars").stars({
-			disabled: true
-		});
-		$("#wine_stars").stars("select", obj.rating);
+		$("#wine_recommend").val(obj.recommend);
 		$("#wine_thoughts").val(obj.thoughts);
 	}
 }
@@ -117,7 +121,6 @@ $(function(){
 	$('#winelist li a').click(function() {
 		show_details( $(this).data('wine') );
 	});
-	$("#stars-wrapper1").stars();
 	$('#settings form').submit(save_settings);
 	$('#create form').submit(add_wine);
 });

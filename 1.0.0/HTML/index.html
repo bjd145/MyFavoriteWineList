@@ -4,27 +4,25 @@
 	<title>My Page</title> 
 	<meta name="viewport" content="width=device-width, initial-scale=1"> 
 	<link rel="stylesheet" href="css/jquery.mobile-1.0.min.css" />
-	<link rel="stylesheet" href="css/crystal-stars.css" />
 	<script src="src/jquery-1.6.4.min.js"></script>
 	<script src="src/jquery.mobile-1.0.1.min.js"></script>
-	<script src="src/jquery.ui.stars.js"></script>
-	<script src="src/phonegap-1.4.1.js" type="text/javascript" charset="utf-8" ></script>
+	<script src="src/phonegap.js" type="text/javascript" charset="utf-8" ></script>
 	<script src="src/wine.js" type="text/javascript" charset="utf-8"></script>
 </head> 
 <body> 
 <div data-role="page" id="main" class="main">
 	<div data-role="header">
+		<a href="#settings" data-icon="gear" class="ui-btn-left">Settings</a>
 		<h1>Wine List</h1>
+		<a href="index.html" onClick="window.location.reload()" data-icon="refresh" class="ui-btn-right">Refresh</a>
 	</div>
 	<div data-role="navbar">
 		<ul>
-			<li><a href="#create" data-role='button' data-inline="true" data-icon="plus" class="ui-btn-left" data-transition="slidedown">Add A Wine</a></li>
-			<li><a href="#sync" data-role='button' data-inline="true" data-icon="refresh" class="ui-btn-center" data-transition="slidedown">Sync</a></li>
-			<li><a href="#settings" data-role='button' data-inline="true" data-icon="gear" class="ui-btn-right" data-transition="slidedown">Settings</a></li>
+			<li><a href="#create" data-role='button' data-inline="true" data-icon="plus" class="ui-btn-right" data-transition="slidedown">Add A Wine</a></li>
 		</ul>
 	</div>
 	<div data-role="content">
-		<ul id="winelist" data-role="listview" data-theme="b"  data-split-icon="delete" data-split-theme="d">
+		<ul id="winelist" data-role="listview" data-theme="b">
 		</ul>
 	</div>
 	<div data-role="footer">
@@ -70,17 +68,13 @@
 					</select>
 				</div>
 				<div data-role="fieldcontain">
-					<fieldset data-role="controlgroup">
-					<legend>Rating:</legend>
-					<div id="stars-wrapper1">
-						<input name="rating" type="radio" value="1" />
-						<input name="rating" type="radio" value="2" />
-						<input name="rating" type="radio" value="3" checked="checked"/>
-						<input name="rating" type="radio" value="4" />
-						<input name="rating" type="radio" value="5" />
-					</div>
-					</fieldset>
+					<label for="recommend">Recommend:</label>
+					<select name="slider" id="recommend" data-role="slider" data-mini="true" data-theme="b">
+						<option value="yes">Yes</option>
+						<option value="no">No</option>
+					</select>
 				</div>
+				
 				<div data-role="fieldcontain">
 					<label for="thoughts">Thoughts:</label>
 					<textarea name="thoughts" id="thoughts"></textarea>
@@ -119,26 +113,18 @@
 <div data-role="page" id="details" data-url="details" data-role="dialog">
 	<div data-role="header">
 		<h1>Details</h1>
+		<a href="#" data-icon="delete" class="ui-btn-right">Delete</a>
 	</div>
 	<div data-role="content">
 		<label>Name</label>
 		<input type="text" id="wine_name" readonly="readonly" />
 		<label>Type</label>
 		<input type="text" id="wine_type" readonly="readonly" />
-		<fieldset data-role="controlgroup">
-			<legend>Rating:</legend>
-			<div id="wine_stars">
-				<input name="rating" type="radio" value="1" />
-				<input name="rating" type="radio" value="2" />
-				<input name="rating" type="radio" value="3" />
-				<input name="rating" type="radio" value="4" />
-				<input name="rating" type="radio" value="5" />
-			</div>
-			</fieldset>
+		<label>Recommend</label>
+		<input type="text" id="wine_recommend" readonly="readonly" />
 		<label>Thoughts</label>
 		<input type="text" id="wine_thoughts" readonly="readonly" />
 	</div>
 </div>
-
 </body>
 </html>
